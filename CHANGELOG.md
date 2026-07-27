@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - device2yaml: add `-n`/`--newline` option to set the command line terminator (e.g. `-n "\r\n"`) for devices that submit a command only on a carriage return; the terminator is recorded as a `command_newline` key in the generated YAML (@Vantomas)
 
 ### Changed
+- dockerfile: add colordiff and colorized-logs to container builds. Supports pretty diff emails. (@colin-stubbs)
 - docker: set LANG=C.UTF-8. Fixes #3690 (@ytti)
 - routeros: remove intermittent POE `voltage_on_poe-in` comment (@hendrikbl)
 - tplink: use `\r\n` as the line terminator in pre_logout, required for the model unit tests to work (@Vantomas)

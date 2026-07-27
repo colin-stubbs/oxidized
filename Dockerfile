@@ -53,6 +53,9 @@ RUN set -eux; \
       git-email libmailtools-perl \
       # Allow sending emails in the docker container
       msmtp \
+      # ensure we can send colorised HTML diffs etc
+      colorized-logs \
+      colordiff \
       # Use debian packaged gems where possible
       # ruby and core gems needed by oxidized
       ruby ruby-rugged ruby-slop \

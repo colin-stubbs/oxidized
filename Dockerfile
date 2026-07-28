@@ -7,7 +7,7 @@ ENV LANG=C.UTF-8
 # add non-privileged user
 RUN groupadd -g "30000" -r oxidized && \
     useradd -u "30000" -r -m -d /home/oxidized -g oxidized oxidized && \
-    chsh -s /bin/bash oxidized 
+    chsh -s /bin/bash oxidized
 
 # See PR #3637 - ruby runs /bin/sh and bash is whished for exec hooks
 RUN ln -sf /bin/bash /bin/sh
@@ -20,12 +20,16 @@ RUN mkdir -p /home/oxidized/.config/oxidized/ && \
     touch /home/oxidized/.config/oxidized/.msmtprc && \
     ln -s /home/oxidized/.config/oxidized/.msmtprc /home/oxidized/ && \
     chmod -R ug=rwX,o= /home/oxidized/.config/ && \
-    chown -R oxidized:oxidized /home/oxidized/
+    chown -R oxidized:oxidized /home/oxidized/ && \
+    mkdir -p /usr/local/share/oxidized
 
 # add runit services
 COPY extra/oxidized.runit /etc/service/oxidized/run
 COPY extra/auto-reload-config.runit /etc/service/auto-reload-config/run
 COPY extra/update-ca-certificates.runit /etc/service/update-ca-certificates/run
+
+# add extras so people can use them without having to do custom injection stuff
+COPY extra /usr/local/share/oxidized/extra
 
 # Prepare the build of oxidized, copy our working directory in the container
 COPY . /tmp/oxidized/
@@ -53,7 +57,7 @@ RUN set -eux; \
       git-email libmailtools-perl \
       # Allow sending emails in the docker container
       msmtp \
-      # ensure we can send colorised HTML diffs etc
+      # ensure we can send colorised HTML diffs via email
       colorized-logs \
       colordiff \
       # Use debian packaged gems where possible

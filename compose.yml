@@ -1,0 +1,23 @@
+services:
+  oxidized:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: oxidized/oxidized:latest
+    restart: always
+    volumes:
+      # config content and outputs inc config git repo
+      - ~/.config/oxidized:/home/oxidized/.config/oxidized
+      # alternatively use a named volume if preferred
+      #- data:/home/oxidized/.config/oxidized
+    ports:
+      # example syslog if needed
+      #- 8514:8514/udp
+      #- 8514:8514/tcp
+      # web interface / REST API
+      - 8888:8888/tcp
+    environment:
+      - CONFIG_RELOAD_INTERVAL=${CONFIG_RELOAD_INTERVAL:-86400}
+
+#volumes:
+#  data:
